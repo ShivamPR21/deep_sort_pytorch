@@ -1,17 +1,18 @@
-import os
-import cv2
-import time
 import argparse
-import torch
+import os
+import time
 import warnings
-import numpy as np
 
-from detector import build_detector
+import cv2
+import numpy as np
+import torch
+
 from deep_sort import build_tracker
+from detector import build_detector
 from utils.draw import draw_boxes
-from utils.parser import get_config
-from utils.log import get_logger
 from utils.io import write_results
+from utils.log import get_logger
+from utils.parser import get_config
 
 
 class VideoTracker(object):
@@ -88,12 +89,12 @@ class VideoTracker(object):
             bbox_xywh, cls_conf, cls_ids = self.detector(im)
 
             # select person class
-            mask = cls_ids == 0
+            # mask = cls_ids == 0
 
-            bbox_xywh = bbox_xywh[mask]
+            # bbox_xywh = bbox_xywh[mask]
             # bbox dilation just in case bbox too small, delete this line if using a better pedestrian detector
             bbox_xywh[:, 3:] *= 1.2
-            cls_conf = cls_conf[mask]
+            # cls_conf = cls_conf[mask]
 
             # do tracking
             outputs = self.deepsort.update(bbox_xywh, cls_conf, im)
